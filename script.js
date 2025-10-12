@@ -1,4 +1,4 @@
-        
+      
       const nowPlayingText = document.getElementById("nowPlayingText");
       let currentTrack = null
       const tracks = [
@@ -160,3 +160,38 @@ searchInput.addEventListener("input", () => {
         }
     });
 });
+document.addEventListener("DOMContentLoaded", () => {
+const themeBtn = document.getElementById("themeBtn");
+const themeToggleBtn = document.getElementById("themeToggleBtn");
+
+
+if (localStorage.getItem("darkTheme") === "enabled") {
+    document.body.classList.add("dark-theme");
+}
+
+
+if (localStorage.getItem("themeUnlocked") === "true") {
+    themeBtn.style.display = "inline-block";
+}
+    themeToggleBtn.addEventListener("click", () => {
+        document.body.classList.toggle("dark-theme");
+
+        if (document.body.classList.contains("dark-theme")) {
+            localStorage.setItem("darkTheme", "enabled");
+        } else {
+            localStorage.setItem("darkTheme", "disabled");
+        }
+    });
+});
+
+
+themeBtn.onclick = () => {
+    document.body.classList.toggle("dark-theme");
+
+    
+    if (document.body.classList.contains("dark-theme")) {
+        localStorage.setItem("darkTheme", "enabled");
+    } else {
+        localStorage.setItem("darkTheme", "disabled");
+    }
+};
