@@ -144,3 +144,19 @@
             document.getElementById("browse").classList.add("hidden");
             document.getElementById(id).classList.remove("hidden");
         }
+
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("input", () => {
+    const query = searchInput.value.toLowerCase();
+
+    
+    Array.from(tracksDiv.children).forEach((trackDiv, index) => {
+        const trackName = tracks[index].name.toLowerCase();
+        if (trackName.includes(query)) {
+            trackDiv.style.display = "flex"; 
+        } else {
+            trackDiv.style.display = "none"; 
+        }
+    });
+});
