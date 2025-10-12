@@ -1,4 +1,7 @@
-
+document.addEventListener("DOMContentLoaded", () => {
+const themeBtn = document.getElementById("themeBtn");
+let score = 0; 
+const scoreDiv = document.getElementById("score");
 const tracks = [
     { name: "Enter Pharloom", url: "music/enterpharloom.mp3" },
     { name: "Moss Grotto", url: "music/mossgrotto.mp3" },
@@ -103,17 +106,40 @@ function loadNewTrack() {
     });
 }
 
-
-function checkAnswer(selected) {
-    if (selected === correctTrack.name) {
-        resultDiv.textContent = "Correct!";
-    } else {
-        resultDiv.textContent = `Wrong! The answer was: ${correctTrack.name}`;
-    }
+if (localStorage.getItem("darkTheme") === "enabled") {
+    document.body.classList.add("dark-theme");
 }
 
 
+function checkAnswer(selected) {
+    if (selected === correctTrack.name) {
+        score++;
+        scoreDiv.textContent = `Score: ${score}`;
+        resultDiv.textContent = "✅ Correct!";
+        loadNewTrack()
+        if (score >= 15) {
+            themeBtn.style.display = "inline-block";
+            localStorage.setItem("themeUnlocked","true");
+        }
+    } else {
+        score = 0;
+        scoreDiv.textContent = `Score: ${score}`;
+        resultDiv.textContent = `❌ Wrong! The answer was: ${correctTrack.name}`;
+        loadNewTrack()
+    }
+}
+
+themeBtn.onclick = () => {
+    document.body.classList.toggle("dark-theme");
+
+    if (document.body.classList.contains("dark-theme")) {
+        localStorage.setItem("darkTheme", "enabled");
+    } else {
+        localStorage.setItem("darkTheme", "disabled");
+    }
+};
 nextBtn.onclick = loadNewTrack;
 
 
 loadNewTrack();
+});
