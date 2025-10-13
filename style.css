@@ -5,6 +5,7 @@ body {
 	padding: 0;
 	font-family: 'EB Garamond', cursive;
 	color: #ff4c4c;
+	text-align: center;
 	text-shadow: 2px 2px 5px #000;
 	overflow-x: hidden;
 	position: relative;
@@ -329,4 +330,37 @@ body.dark-theme .track button {
 }
 body.dark-theme .track span {
 	color: #c0c0ff;
+}
+
+.track .star {
+    color: #ffd54f;
+    font-size: 18px;
+    transition: transform 0.12s ease;
+}
+.track .fav-btn:hover .star {
+    transform: scale(1.15);
+}
+
+
+.leader-row:hover {
+    background: rgba(255,76,76,0.04);
+}
+
+
+#topList {
+    background: rgba(0,0,0,0.4);
+    padding: 12px;
+    border-radius: 12px;
+    border: 2px solid #ff4c4c;
+}
+
+@media (max-width: 480px) {
+    .leader-row { flex-direction: column; align-items: flex-start; gap:10px; }
+    .leader-row > div:last-child { width:100%; display:flex; justify-content:space-between; align-items:center; }
+}
+body.dark-theme #topList {
+    background: #111111;
+    padding: 12px;
+    border-radius: 12px;
+    border: 2px solid #4444ff;
 }
