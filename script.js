@@ -63,8 +63,36 @@
 
         let audioPlayers = [];
         let score = 0;
+        const FAVORITE_COUNTS_KEY = "favoriteCounts"; 
+const USER_FAVORITES_KEY = "userFavorites";   
 
-        
+
+function loadFavoriteCounts() {
+    try {
+        return JSON.parse(localStorage.getItem(FAVORITE_COUNTS_KEY)) || {};
+    } catch {
+        return {};
+    }
+}
+function loadUserFavorites() {
+    try {
+        return JSON.parse(localStorage.getItem(USER_FAVORITES_KEY)) || {};
+    } catch {
+        return {};
+    }
+}
+function saveFavoriteCounts(obj) {
+    localStorage.setItem(FAVORITE_COUNTS_KEY, JSON.stringify(obj));
+}
+function saveUserFavorites(obj) {
+    localStorage.setItem(USER_FAVORITES_KEY, JSON.stringify(obj));
+}
+
+
+let favoriteCounts = loadFavoriteCounts();
+let userFavorites = loadUserFavorites();
+
+                
         tracks.forEach((track, index) => {
             const div = document.createElement("div");
             div.className = "track";
@@ -72,9 +100,16 @@
             div.ondragstart = (e) => {
                 e.dataTransfer.setData("text", index);
             };
-
+                const isFav = !!userFavorites[track.name];
+                const starChar = isFav ? "★" : "☆";
+                const starTitle = isFav ? "Unfavorite" : "Favorite";
             div.innerHTML = `
-                <span>${track.name}</span>
+                <div class="track-info" style="display:flex; justify-content:space-between; align-items:center;">   
+                <span style="font-weight:600;">${track.name}</span>
+                <button class="fav-btn" data-index="${index}" title="${starTitle}" aria-label="${starTitle}" style="font-size:18px; background:transparent; border:none; cursor:pointer;">
+                <span class="star">${starChar}</span>
+                </button>
+                </div>
                 <div>
                     <button onclick="playTrack(${index})">Play</button>
                     <button onclick="pauseTrack(${index})">Pause</button>
@@ -86,6 +121,38 @@
             const audio = new Audio(track.url);
             audioPlayers.push(audio);
         });
+        
+
+tracksDiv.addEventListener("click", (e) => {
+    const btn = e.target.closest(".fav-btn");
+    if (!btn) return;
+    const index = parseInt(btn.getAttribute("data-index"), 10);
+    if (Number.isNaN(index)) return;
+    toggleFavorite(index, btn);
+});
+
+function toggleFavorite(trackIndex, buttonElement) {
+    const t = tracks[trackIndex];
+    const name = t.name;
+    
+    favoriteCounts = favoriteCounts || {};
+    userFavorites = userFavorites || {};
+
+    if (userFavorites[name]) {
+        
+        favoriteCounts[name] = Math.max((favoriteCounts[name] || 1) - 1, 0);
+        delete userFavorites[name];
+
+    } else {
+        
+        favoriteCounts[name] = (favoriteCounts[name] || 0) + 1;
+        userFavorites[name] = true;
+
+    }
+
+    saveFavoriteCounts(favoriteCounts);
+    saveUserFavorites(userFavorites);
+}
 
         
         function playTrack(i) {
