@@ -75,9 +75,11 @@ section {
 
 
 #tracks {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-	gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, auto)); 
+  gap: 20px;
+  justify-content: start; 
+  max-width: 1950px;
 }
 
 
@@ -92,6 +94,10 @@ section {
 	transition: transform 0.2s, box-shadow 0.2s;
 	cursor: grab;
 	border: 2px solid #ff4c4c;
+	height: 150px;
+	
+	
+	
 }
 
 .track:hover {
@@ -363,4 +369,76 @@ body.dark-theme #topList {
     padding: 12px;
     border-radius: 12px;
     border: 2px solid #4444ff;
+}
+.seek-btn {
+	background: none;
+	border: none;
+	font-size: 16px;
+	cursor: pointer;
+	padding: 0;
+	margin: 0;
+	line-height: 1;
+	outline: none;
+	appearance:none;
+	 -webkit-appearance:none;
+}
+
+.seek-btn:focus {
+	outline: none;
+}
+
+
+.track.active-track {
+	height: 210px;
+}
+#playbtn {
+	padding:6px 10px; 
+	border:none;
+	border-radius:5px;	
+	color: #ff4c4c;
+	background:#400000;;
+}
+body.dark-theme #playbtn {
+	padding:6px 10px; 
+	border:none;
+	border-radius:5px;	
+	color: #c0c0ff;
+	background:#4444ff;
+}
+#countbdg {
+	min-width:36px; 
+	text-align:center; 
+	padding:6px; 
+	border-radius:8px; 
+	background:rgba(255,76,76,0.12);
+}
+body.dark-theme #countbdg {
+	background:rgba(68, 68, 255, 0.12);
+}
+#row {
+	display:flex; 
+	align-items:center; 
+	justify-content:space-between; 
+	padding:10px; 
+	border-bottom:1px solid rgba(255,76,76,0.08);
+}
+body.dark-theme #row {
+	border-bottom:1px solid rgba(68, 68, 255, 0.12);
+}
+#rank {
+	width:30px; 
+	text-align:right; 
+	color:#ffdfdf
+}
+body.dark-theme #row {
+	color :#e0e0ff
+}
+body.dark-theme .leader-row:hover {
+    background: rgba(192, 192, 255, 0.04);
+}
+
+#top-fav-btn {
+	color: #ffd54f;
+    font-size: 18px;
+    transition: transform 0.12s ease;
 }
