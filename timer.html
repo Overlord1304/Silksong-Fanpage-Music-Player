@@ -1,43 +1,39 @@
-const themeBtn = document.getElementById("themeBtn");
-if (localStorage.getItem("darkTheme") === "enabled") {
-    document.body.classList.add("dark-theme");
-}
-themeBtn.onclick = () => {
-    document.body.classList.toggle("dark-theme");
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Silksong Music & Soundboard</title>
 
-    if (document.body.classList.contains("dark-theme")) {
-        localStorage.setItem("darkTheme", "enabled");
-    } else {
-        localStorage.setItem("darkTheme", "disabled");
-    }
-};
-const startDate = new Date("September 4, 2025 00:00:00"); 
-const startDate1 = new Date("February 14, 2019 00:00:00");
-function updateTimer() {
-	const now = new Date();
-	const enddate = new Date("September 4, 2025 00:00:00");
-	let diff = now - startDate; 
-	let diff2 = enddate - startDate1;
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+    <div class="bg-image"></div>
+    <div class="overlay">
+    <header>Silksong Music & Soundboard</header>
 
-	
-	const seconds = Math.floor(diff / 1000) % 60;
-	const minutes = Math.floor(diff / (1000 * 60)) % 60;
-	const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
-	const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-	const seconds1 = Math.floor(diff2 / 1000) % 60;
-	const minutes1 = Math.floor(diff2 / (1000 * 60)) % 60;
-	const hours1 = Math.floor(diff2 / (1000 * 60 * 60)) % 24;
-	const days1 = Math.floor(diff2 / (1000 * 60 * 60 *24));
-
-	document.getElementById("timer").textContent =
-		`${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
-	document.getElementById("timer2").textContent = 
-		`${days1} days, ${hours1} hours, ${minutes1} minutes, ${seconds1} seconds`;
-}
-	
-		
+    <div class="navbar">
+        <a href="index.html">Browse Music</a>
+        <a href="guess.html">Guess the Skong OST!</a>
+        <a href="timer.html">Days Waiting for DLC!</a>
+        <a href="top.html">TOP 10 rated OSTs</a>
+    </div>
 
 
-setInterval(updateTimer, 1000);
-updateTimer()
+        <button id="themeBtn" style="display:none; margin-bottom:15px; padding:10px 20px; border-radius:12px; border:2px solid #4444ff; background:#111; color:#c0c0ff; cursor:pointer;">
+        Toggle Abyss Theme
+        </button>
+        <button id="themeToggleBtn" style="display:none; margin-bottom:15px; padding:10px 20px; border-radius:12px; border:2px solid #4444ff; background:#111; color:#c0c0ff; cursor:pointer;">
+        Toggle Dark/Abyss Theme
+        </button>
+<script src="timer.js"></script>
+<h2>We have been waiting for the DLC for...</h2>
+	<div id="timer" style="font-size: 2rem; font-weight: bold; margin-top: 20px;">
+
+    </div>
+<h2>We had been waiting for Silksong for...</h2>
+    <div id="timer2" style="font-size: 2rem; font-weight: bold; margin-top: 20px;">
+
+    </div>
+    
+    </body>
