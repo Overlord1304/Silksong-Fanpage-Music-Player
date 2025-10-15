@@ -2,7 +2,7 @@
 let audioPlayers = [];
 let trackVolumes = [];
 let currentTrack = null;
-
+let trackSeekIntervals = [];
 document.addEventListener("DOMContentLoaded", () => {
   const nowPlayingText = document.getElementById("nowPlayingText");
   const tracksDiv = document.getElementById("tracks");
@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const FAVORITE_COUNTS_KEY = "favoriteCounts";
   const USER_FAVORITES_KEY = "userFavorites";
-
+  
   const tracks = [
     { name: "Enter Pharloom", url: "music/enterpharloom.mp3" },
     { name: "Moss Grotto", url: "music/mossgrotto.mp3" },
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
     tracks.forEach((track, index) => {
       const div = document.createElement("div");
       div.className = "track";
-      div.draggable = true;
+      div.draggable = false;
       div.ondragstart = (e) => e.dataTransfer.setData("text", index);
 
       const isFav = !!userFavorites[track.name];
@@ -110,6 +110,14 @@ document.addEventListener("DOMContentLoaded", () => {
           <button class="player-btn" data-action="pause" data-index="${index}">Pause</button>
           <button class="player-btn" data-action="reset" data-index="${index}">Reset</button>
         </div>
+       <div class="seek-controls" id="seek-${index}" style="display:none; margin-top:5px; display:flex; align-items:center; gap:6px;">
+         <button class="seek-btn" onclick="rewindTrack(${index})" style="cursor:pointer;appearance:none; -webkit-appearance:none;background: none; border:none;">⏪</button>
+         <input type="range" min="0" max="100" value="0"
+            oninput="seekTrack(${index}, this.value)" style="flex:1;">
+          <button class="seek-btn" onclick="fastForwardTrack(${index})" style="cursor:pointer;appearance:none; -webkit-appearance:none; background: none; border:none;">⏩</button>
+       </div>
+
+        </div>
         <div class="volume-controls" id="volume-${index}" style="display:none; margin-top:5px; gap:6px; align-items:center;">
           <button onclick="changeVolume(${index}, -0.1)" style="background:none; border:none; cursor:pointer;">-</button>
           <input type="range" min="0" max="1" step="0.01" value="1"
@@ -127,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
       audio.addEventListener("ended", () => {
         if (currentTrack === track.name && nowPlayingText) {
           nowPlayingText.innerHTML = `<span class="music-icon">🎵</span> Now Playing: ...`;
-          hideVolume(index);
+                  
         }
       });
     });
@@ -229,7 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function playTrack(i) {
   audioPlayers.forEach((audio, index) => {
-    if (index !== i) { audio.pause(); hideVolume(index); }
+    if (index !== i) { audio.pause(); hideVolume(index);document.querySelectorAll(".track")[index].classList.remove("active-track"); }
   });
   audioPlayers[i].play();
   currentTrack = tracks[i].name
@@ -237,11 +245,13 @@ function playTrack(i) {
   document.getElementById("nowPlayingText").innerHTML = `<span class="music-icon">🎵</span> Now Playing: ${currentTrack}`;
   audioPlayers[i].volume = trackVolumes[i] ?? 1;
   showVolume(i);
+  showSeek(i)
+  document.querySelectorAll(".track")[i].classList.add("active-track");
 }
 
 function pauseTrack(i) {
   audioPlayers[i]?.pause();
-  hideVolume(i);
+
   if (document.getElementById("nowPlayingText").innerHTML.includes(audioPlayers[i]?.src.split("/").pop())) {
     document.getElementById("nowPlayingText").innerHTML = `<span class="music-icon">🎵</span> Now Playing: ...`;
   }
@@ -252,8 +262,9 @@ function resetTrack(i) {
   audioPlayers[i].pause();
   audioPlayers[i].currentTime = 0;
   audioPlayers[i].play();
-  currentTrack = audioPlayers[i].src.split("/").pop();
+  currentTrack = tracks[i].name
   document.getElementById("nowPlayingText").innerHTML = `<span class="music-icon">🎵</span> Now Playing: ${currentTrack}`;
+  showSeek(i)
   showVolume(i);
 }
 
@@ -274,8 +285,49 @@ function changeVolume(i, delta) {
   if (slider) slider.value = v;
 }
 
+function showSeek(i) {
+  
+  const div = document.getElementById(`seek-${i}`);
+  if (!div) return;
+  div.style.display = "flex";
+
+  if (trackSeekIntervals[i]) clearInterval(trackSeekIntervals[i]);
+  trackSeekIntervals[i] = setInterval(() => {
+    const audio = audioPlayers[i];
+    if (audio.duration) {
+      const percent = (audio.currentTime / audio.duration) * 100;
+      div.querySelector("input").value = percent;
+    }
+  }, 200);
+}
+
+function hideSeek(i) {
+  const div = document.getElementById(`seek-${i}`);
+  if (div) div.style.display = "none";
+  if (trackSeekIntervals[i]) {
+    clearInterval(trackSeekIntervals[i]);
+    trackSeekIntervals[i] = null;
+  }
+}
+
+function hideAllSeek() {
+  document.querySelectorAll(".seek-controls").forEach(el => el.style.display = "none");
+  for (let i in trackSeekIntervals) {
+    clearInterval(trackSeekIntervals[i]);
+    trackSeekIntervals[i] = null;
+  }
+}
+function seekTrack(i, value) {
+  const audio = audioPlayers[i];
+  if (audio.duration > 0) {
+    audio.currentTime = (parseFloat(value) / 100) * audio.duration;
+  }
+}
+
 function showVolume(i) {
-  document.querySelectorAll(".volume-controls").forEach(div => div.style.display = "none");
+
+  hideAllVolume()
+
   const volDiv = document.getElementById(`volume-${i}`);
   if (volDiv) volDiv.style.display = "flex";
 }
@@ -283,4 +335,17 @@ function showVolume(i) {
 function hideVolume(i) {
   const volDiv = document.getElementById(`volume-${i}`);
   if (volDiv) volDiv.style.display = "none";
+}
+function hideAllVolume() {
+  document.querySelectorAll(".volume-controls").forEach(el => el.style.display = "none");
+}
+function rewindTrack(i) {
+  const audio = audioPlayers[i];
+  if (!audio) return;
+  audio.currentTime = Math.max(0, audio.currentTime - 10);
+}
+function fastForwardTrack(i) {
+  const audio = audioPlayers[i];
+  if (!audio) return;
+  audio.currentTime = Math.min(audio.duration,audio.currentTime + 10)
 }
