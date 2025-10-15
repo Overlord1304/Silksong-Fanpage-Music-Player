@@ -120,14 +120,14 @@ document.addEventListener("DOMContentLoaded", () => {
     list.forEach((item, idx) => {
       const row = document.createElement("div");
       row.className = "leader-row";
-      row.style = "display:flex; align-items:center; justify-content:space-between; padding:10px; border-bottom:1px solid rgba(255,76,76,0.08);";
+      row.id = "row"
 
       const left = document.createElement("div");
       left.style = "display:flex; align-items:center; gap:12px;";
 
       const rank = document.createElement("div");
       rank.textContent = `${idx + 1}.`;
-      rank.style = "width:30px; text-align:right; color:#ffdfdf;";
+      rank.id = "rank"
 
       const title = document.createElement("div");
       title.textContent = item.name;
@@ -151,12 +151,12 @@ document.addEventListener("DOMContentLoaded", () => {
       
       const playBtn = document.createElement("button");
       playBtn.textContent = "Preview";
-      playBtn.style = "padding:6px 10px; border:none;border-radius:5px;	color: #c0c0ff;background:#4444ff;";
+      playBtn.id = "playbtn"
 
       
       const countBadge = document.createElement("div");
       countBadge.textContent = `${item.count}`;
-      countBadge.style = "min-width:36px; text-align:center; padding:6px; border-radius:8px; background:rgba(255,76,76,0.12);";
+      countBadge.id = "countbdg"
 
       right.appendChild(starBtn);
       right.appendChild(playBtn);
