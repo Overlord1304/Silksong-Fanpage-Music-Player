@@ -74,7 +74,7 @@ section {
 }
 
 
-#tracks {
+#skongTracks {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, auto)); 
   gap: 20px;
@@ -469,7 +469,7 @@ body.dark-theme .leader-row:hover {
 	text-align: center;
 }
 #timer,
-#timer2 {
+#silkSanity {
 	font-size: 2rem; 
 	font-weight: bold; 
 	margin-top: 20px;
@@ -485,3 +485,4 @@ body.dark-theme .leader-row:hover {
 	justify-content:space-between; 
 	align-items:center;
 }
+
