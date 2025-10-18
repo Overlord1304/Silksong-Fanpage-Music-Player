@@ -5,7 +5,7 @@ let currentTrack = null;
 let trackSeekIntervals = [];
 document.addEventListener("DOMContentLoaded", () => {
   const nowPlayingText = document.getElementById("nowPlayingText");
-  const tracksDiv = document.getElementById("tracks");
+  const tracksDiv = document.getElementById("skongTracks");
   const searchInput = document.getElementById("searchInput");
   const themeBtn = document.getElementById("themeBtn");
   const themeToggleBtn = document.getElementById("themeToggleBtn");
@@ -349,3 +349,4 @@ function fastForwardTrack(i) {
   audio.currentTime = Math.min(audio.duration,audio.currentTime + 10)
 
 }
+
