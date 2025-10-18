@@ -1,4 +1,4 @@
-# 🎵 Silksong OST Web Music Player
+#  Silksong OST Web Music Player
 
 music player for all skong ost!
 
@@ -10,7 +10,7 @@ music player for all skong ost!
 - Click star to favorite / unfavorite
 - Star updates visually in real time
 
-###  Unlockable Themes!
+###  Unlockable Themes
 - Unlockable Abyss Theme if you reach over 15 score
 
 ### Setup & Usage
