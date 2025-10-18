@@ -32,7 +32,7 @@ function updateTimer() {
 
 	document.getElementById("timer").textContent =
 		`${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
-	document.getElementById("timer2").textContent = 
+	document.getElementById("silkSanity").textContent = 
 		`${days1} days, ${hours1} hours, ${minutes1} minutes, ${seconds1} seconds`;
 }
 	
@@ -40,4 +40,5 @@ function updateTimer() {
 
 
 setInterval(updateTimer, 1000);
+
 updateTimer()
