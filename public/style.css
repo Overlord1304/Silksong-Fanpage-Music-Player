@@ -380,7 +380,9 @@ body.dark-theme #topList {
 	line-height: 1;
 	outline: none;
 	appearance:none;
-	 -webkit-appearance:none;
+	-webkit-appearance:none;
+	
+	
 }
 
 .seek-btn:focus {
@@ -441,4 +443,45 @@ body.dark-theme .leader-row:hover {
 	color: #ffd54f;
     font-size: 18px;
     transition: transform 0.12s ease;
+	background:transparent; 
+	border:none; 
+	cursor:pointer;
+}
+#score {
+	font-size: 20px; 
+	font-weight: bold; 
+	margin-bottom: 15px; 
+	color: #ffdfdf; 
+	text-shadow: 0 0 10px #ff4c4c;
+}
+#themeBtn {
+	display:none; 
+	margin-bottom:15px; 
+	padding:10px 20px; 
+	border-radius:12px; 
+	border:2px solid #4444ff; 
+	background:#111; 
+	color:#c0c0ff; 
+	cursor:pointer;
+}
+#searchContainer {
+	margin-bottom: 20px; 
+	text-align: center;
+}
+#timer,
+#timer2 {
+	font-size: 2rem; 
+	font-weight: bold; 
+	margin-top: 20px;
+}
+
+#topSection {
+	max-width:900px; 
+	margin: 
+	30px auto;
+}
+.track-info {
+	display:flex; 
+	justify-content:space-between; 
+	align-items:center;
 }
